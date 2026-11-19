@@ -169,15 +169,15 @@ namespace HummingbirdX
             var cam = Camera.main;
             if (env == null || cam == null) return;
             Vector3 lp = cam.transform.position;
-            float night = env.Night;
+            float nightAmt = env.Night;
             float rainAmt = env.Rain;
             float altitude = Mathf.Clamp01((lp.y - TerrainField.Height(lp.x, lp.z) - 10f) / 60f);
             float dt = Time.unscaledDeltaTime;
             float k = 1f - Mathf.Exp(-dt * 1.5f);
 
             float nature = Gain(AudioCategory.Nature), amb = Gain(AudioCategory.Ambient), water = Gain(AudioCategory.Water);
-            day.volume = Mathf.Lerp(day.volume, nature * 0.75f * (1f - night) * (1f - rainAmt * 0.6f) * (1f - altitude * 0.4f), k);
-            night.volume = Mathf.Lerp(night.volume, nature * 0.7f * night * (1f - rainAmt * 0.5f), k);
+            day.volume = Mathf.Lerp(day.volume, nature * 0.75f * (1f - nightAmt) * (1f - rainAmt * 0.6f) * (1f - altitude * 0.4f), k);
+            night.volume = Mathf.Lerp(night.volume, nature * 0.7f * nightAmt * (1f - rainAmt * 0.5f), k);
             rain.volume = Mathf.Lerp(rain.volume, amb * rainAmt * 0.85f, k);
             // wind is stronger above the canopy and in storms
             wind.volume = Mathf.Lerp(wind.volume, amb * Mathf.Clamp01(env.WindStrength * 0.35f + altitude * 0.55f + rainAmt * 0.2f), k);
@@ -193,12 +193,12 @@ namespace HummingbirdX
             }
             foreach (var s in insects)
             {
-                float hot = (1f - night) * Mathf.Clamp01(1f - Mathf.Abs(env.TimeOfDay - 14f) / 6f) * (1f - rainAmt);
+                float hot = (1f - nightAmt) * Mathf.Clamp01(1f - Mathf.Abs(env.TimeOfDay - 14f) / 6f) * (1f - rainAmt);
                 s.volume = nature * 0.45f * hot;
             }
 
             // bird calls around the listener: dawn chorus is busiest, rain quiets birds
-            float activity = Mathf.Clamp01(1f - night * 0.85f) * (1f - rainAmt * 0.7f);
+            float activity = Mathf.Clamp01(1f - nightAmt * 0.85f) * (1f - rainAmt * 0.7f);
             float dawn = Mathf.Clamp01(1f - Mathf.Abs(env.TimeOfDay - 6.5f) / 2f);
             if (env.Weather == Weather.PostRain) activity *= 1.4f;
             callTimer -= Time.deltaTime * (0.5f + activity + dawn * 1.5f);
