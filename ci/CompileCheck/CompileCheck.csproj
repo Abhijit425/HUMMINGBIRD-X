@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>HbxCompileCheck</AssemblyName>
+    <NoWarn>CS0618;CS0414;CS0649;CS0169;CS0067</NoWarn>
+    <UnityVer Condition="'$(UnityVer)' == ''">6000.0.*</UnityVer>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="../../Assets/HummingbirdX/Scripts/**/*.cs" />
+    <Compile Include="UguiStubs.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="UnityEngine.Modules" Version="$(UnityVer)" IncludeAssets="compile" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
