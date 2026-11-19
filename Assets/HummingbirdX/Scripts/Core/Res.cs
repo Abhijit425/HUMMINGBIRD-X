@@ -161,6 +161,10 @@ namespace HummingbirdX
 
             Sky = new Material(Res.Shader("HummingbirdX/Sky")) { name = "Sky" };
             Sky.SetTexture("_NoiseTex", Res.Tex("noise_mask"));
+
+            // everything drawn with Graphics.RenderMeshInstanced must allow instancing
+            foreach (var m in new[] { Bark, Vine, Rock, Leaf, Fern, Petal, GlowFungus, FlowerSolid, Feather, InsectBody })
+                m.enableInstancing = true;
         }
 
         static Material BarkMat(string name, float moss, float gloss)

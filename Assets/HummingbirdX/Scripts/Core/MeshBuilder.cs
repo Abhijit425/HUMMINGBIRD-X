@@ -75,7 +75,7 @@ namespace HummingbirdX
             for (int r = 0; r < rows; r++)
             {
                 int a = start + r * 2;
-                Quad(a, a + 2, a + 3, a + 1);
+                Quad(a, a + 1, a + 3, a + 2);   // front face matches the card normal
             }
         }
 
@@ -113,7 +113,7 @@ namespace HummingbirdX
                 {
                     int a = start + i * (sides + 1) + s;
                     int b = a + sides + 1;
-                    Quad(a, b, b + 1, a + 1);
+                    Quad(a, a + 1, b + 1, b);   // outward-facing (clockwise seen from outside)
                 }
             }
             if (capEnd && radii[n - 1] > 0.0001f)
@@ -122,7 +122,7 @@ namespace HummingbirdX
                 Color c = Col; c.a = windTip;
                 int ci = Vert(pts[n - 1] + dir * radii[n - 1] * 0.3f, dir, new Vector2(0.5f, vAcc), c);
                 int ring = start + (n - 1) * (sides + 1);
-                for (int s = 0; s < sides; s++) Tri(ring + s, ci, ring + s + 1);
+                for (int s = 0; s < sides; s++) Tri(ring + s, ring + s + 1, ci);
             }
         }
 

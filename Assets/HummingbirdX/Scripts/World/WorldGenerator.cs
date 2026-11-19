@@ -321,7 +321,7 @@ namespace HummingbirdX
                     for (int k = 0; k < 2; k++)
                     {
                         int a = r * 3 + k;
-                        mb.Quad(a, a + 3, a + 4, a + 1);
+                        mb.Quad(a, a + 1, a + 4, a + 3);   // faces up
                     }
                 MakeObject("River" + idx++, mb.ToMesh("River"), Mats.Water, water, false);
             }

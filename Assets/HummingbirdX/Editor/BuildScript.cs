@@ -64,9 +64,25 @@ namespace HummingbirdX.EditorTools
             PlayerSettings.muteOtherAudioSources = false;
             PlayerSettings.SplashScreen.backgroundColor = new Color(0.02f, 0.05f, 0.04f);
 
+            UseClassicInput();
             KeepShaderVariants();
             AssetDatabase.SaveAssets();
             Debug.Log("[HBX] Android player configured");
+        }
+
+        // The game reads touches through UnityEngine.Input, so force the classic Input Manager.
+        static void UseClassicInput()
+        {
+            var assets = AssetDatabase.LoadAllAssetsAtPath("ProjectSettings/ProjectSettings.asset");
+            if (assets == null || assets.Length == 0) return;
+            var so = new SerializedObject(assets[0]);
+            var p = so.FindProperty("activeInputHandler");
+            if (p != null && p.intValue != 0)
+            {
+                p.intValue = 0;
+                so.ApplyModifiedPropertiesWithoutUndo();
+                Debug.Log("[HBX] activeInputHandler set to Input Manager (old)");
+            }
         }
 
         // Runtime-created materials are invisible to Unity's variant stripping,
